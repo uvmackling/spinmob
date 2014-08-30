@@ -6,7 +6,7 @@
 import os  # Used for loading fixtures
 import numpy as _n
 import spinmob as sm
-_dt = sm._data_types
+_dt = sm._data
 
 import unittest as _ut
 from unittest import TestLoader as _TL
