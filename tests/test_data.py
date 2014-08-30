@@ -51,7 +51,7 @@ class Test_databox(_ut.TestCase):
         self.module_path = self.module_path[0]
         if self.debug: print "self.module_path=", self.module_path
         
-        self.fixtures_path = os.path.join('spinmob', 'tests', 'fixtures', 'data_types')
+        self.fixtures_path = os.path.join('spinmob', 'tests', 'fixtures', 'data')
         midPath = os.path.join(self.module_path, self.fixtures_path)        
         
         filename = 'simple_xy_data.dat'
@@ -309,10 +309,12 @@ class Test_databox(_ut.TestCase):
         self.assertListEqual(val, exp)     
 
 
+    def test_
+
 
 if __name__ == "__main__":
     #test()
-    _ut.main()
+    _ut.main(module=__name__, buffer=True)
 
 
 
