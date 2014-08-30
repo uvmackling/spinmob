@@ -5,6 +5,13 @@
 
 import os  # Used for loading fixtures
 import numpy as _n
+
+
+# For handling standard output
+import sys
+from StringIO import StringIO
+
+
 import spinmob as sm
 _dt = sm._data
 
@@ -41,7 +48,7 @@ class Test_databox(_ut.TestCase):
     
     def setUp(self):
         """
-        Load data
+        Load data, gather standard output
         """
 
         # Path to the spinmob module
@@ -74,6 +81,13 @@ class Test_databox(_ut.TestCase):
         #self.databoxDebug = _dt.databox(debug=True, delimiter=',    ')
 
 
+        # Gathering standard output
+        self.output = StringIO()
+        self.saved_stdout = sys.stdout
+        sys.stdout = self.output
+
+
+
     def tearDown(self):
         """
         Cleanup procedure for the imageData and backgroundData
@@ -84,6 +98,10 @@ class Test_databox(_ut.TestCase):
         self.data_path     = None
         self.fixtures_path = None
         self.databox       = None
+
+        # Closing up standard output
+        self.output.close()
+        sys.stdout = self.saved_stdout
 
 
     def test___repr__Default(self):
@@ -203,6 +221,7 @@ class Test_databox(_ut.TestCase):
         exp = [85.0, 90.0, 95.0, 100.0, 105.0] 
         self.assertListEqual(val, exp)            
         
+        
     def test___init__kwargs(self):
         # TODO: is this a valid test?  Did anything pass?
         d = sm.data.databox(test_kwarg='test_value')
@@ -254,6 +273,7 @@ class Test_databox(_ut.TestCase):
 
         exp = None
         self.assertEqual(val, exp)          
+
 
     def test_h_GoodFragment(self):
         """
@@ -309,12 +329,34 @@ class Test_databox(_ut.TestCase):
         self.assertListEqual(val, exp)     
 
 
-    def test_
+    def test_load_headers_quiet(self):
+        
+        self.databox.load_file(path=self.data_path3, quiet=True) 
+            
+        val = self.output.getvalue()
+        
+        exp = ''
+        self.assertEqual(val, exp)   
+        
 
+    
+    def test_load_headers_not_quiet(self):
+        
+        self.databox.load_file(path=self.data_path3, quiet=False)
+            
+        val = self.output.getvalue()
+        
+        exp = "Couldn't find a line of pure data!"
+                 
+        self.assertEqual(val, exp)     
+  
+
+    # TODO: test load with a file that doesn't have header information.
+         
 
 if __name__ == "__main__":
     #test()
-    _ut.main(module=__name__, buffer=True)
+    _ut.main()
 
 
 
