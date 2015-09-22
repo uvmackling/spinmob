@@ -9,25 +9,10 @@ import spinmob as sm
 _dt = sm._data
 
 import unittest as _ut
-from unittest import TestLoader as _TL
 
 # Not sure how to handle ~line 125 where if a path is not specified, the user
 # manually enters one.  This is annoying to test.  Has to be a way to handle
 # this nicely.
-
-
-def test():
-    """
-    Run all tests in this module.
-    """
-
-    suite_databox = _TL().loadTestsFromTestCase(Test_databox)
-    suite_fitter = _TL().loadTestsFromTestCase(Test_fitter)
-
-    suites = [suite_databox, suite_fitter]
-    alltests = _ut.TestSuite(suites)
-
-    _ut.TextTestRunner(verbosity=2).run(alltests)
 
 
 class Test_databox(_ut.TestCase):
