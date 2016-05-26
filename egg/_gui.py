@@ -1545,6 +1545,45 @@ class TreeDictionary(BaseObject):
 
         return self
 
+    def remove_parameter(self, name='test'):
+        """
+        Removes a parameter "leaf" or "branch" from the tree.
+        
+        This is especially useful if you want to allow und users to mess with the structure/contents of your tree dictionary!
+
+        The name should be a string of the form
+
+        "branch1/branch2/parametername"
+        
+        If you wish to remove parameter name, or just
+        
+        "branch1/branch2"
+        
+        To remove banch 2 and all of its parameters, or, if you're really bold jus
+        
+        "branch1"
+        
+        To remove branch 1, all of its children and all of their leafs
+        """
+
+        # split into (presumably existing) branches and parameter
+        s = name.split('/') # s is short for split
+
+        # make sure it already exists
+        if self._find_parameter(s, quiet=True) == None:
+            self.print_message("Error: '"+name+"' doesn't exist.")
+            return self
+
+        r = self._find_parameter(s, create_missing=False) #r is short for '(to be) removed'
+
+        # quit out if it pooped
+        if r == None: return self
+
+        # remove the leaf object
+        r.remove()
+
+        return self
+
 
     def _get_parameter_dictionary(self, base_name, dictionary, sorted_keys, parameter):
         """
